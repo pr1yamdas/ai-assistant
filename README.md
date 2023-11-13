@@ -1,4 +1,4 @@
-# Voice-Activated Assistant with Python
+# Voice-Activated AI Assistant with Python
 
 ## Overview
 
@@ -20,4 +20,4 @@ This project implements a simple voice-activated assistant using Python. The ass
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/voice-activated-assistant.git
+   git clone https://github.com/pr1y4m/ai-assistant.git
