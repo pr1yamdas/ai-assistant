@@ -20,3 +20,8 @@ def takeCommand():
             print(f"Error in speech recognition: {e}")
             return "error"
 say("Hello i am jarvis")
+while True:
+    print("listening..")
+    query = takeCommand()
+    sites=[["youtube","https://youtube.com"] , ["wikipedia","https://wikipedia.com"],["google","https://google.com"]]
+  
