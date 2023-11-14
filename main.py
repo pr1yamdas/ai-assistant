@@ -19,3 +19,4 @@ def takeCommand():
         except Exception as e:
             print(f"Error in speech recognition: {e}")
             return "error"
+say("Hello i am jarvis")
