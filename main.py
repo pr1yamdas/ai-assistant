@@ -24,4 +24,8 @@ while True:
     print("listening..")
     query = takeCommand()
     sites=[["youtube","https://youtube.com"] , ["wikipedia","https://wikipedia.com"],["google","https://google.com"]]
-  
+     for site in sites:
+
+        if f"Open {site[0]}".lower() in query.lower():
+                say(f"opening {site[0]}..")
+                webbrowser.open(site[1])
