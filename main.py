@@ -1,6 +1,9 @@
 import speech_recognition as sr
 import win32com.client
 import webbrowser
+import sys
+import subprocess
+import datetime
 
 def say(text):
     speak = win32com.client.Dispatch("SAPI.SpVoice")
@@ -10,7 +13,7 @@ def takeCommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
-        r.pause_threshold = 1
+        r.pause_threshold = 0.8
         audio = r.listen(source)
         try:
             query = r.recognize_google(audio, language="en-in")
@@ -18,8 +21,11 @@ def takeCommand():
             return query
         except Exception as e:
             print(f"Error in speech recognition: {e}")
+            say("could not hear, please repeat")
             return "error"
-say("Good morning")
+
+
+say("good morning")
 while True:
     print("listening..")
     query = takeCommand()
@@ -37,10 +43,12 @@ while True:
     if "time" in query:
         strftime = datetime.datetime.now().strftime("%H:%M:%S")
         say(f"the time is {strftime}")
-        
+
+
+
     sites=[["youtube","https://youtube.com"] , ["wikipedia","https://wikipedia.com"],["google","https://google.com"],["mail","https://mail.google.com/mail/u/0/#inbox"]]
     apps=[["whatsapp",r"C:\Users\priya\OneDrive\Desktop\WhatsApp.lnk"],["spotify", r"C:\Users\priya\OneDrive\Desktop\Spotify.lnk"],["telegram",r"C:\Users\priya\OneDrive\Desktop\Telegram.lnk"],["gpt",r"C:\Users\priya\OneDrive\Desktop\ChatGPT.lnk"]]
-
+   
     for site in sites:
 
         if  site[0].lower() in query.lower():
