@@ -19,13 +19,22 @@ def takeCommand():
         except Exception as e:
             print(f"Error in speech recognition: {e}")
             return "error"
-say("Hello i am jarvis")
+say("Good morning")
 while True:
     print("listening..")
     query = takeCommand()
-    sites=[["youtube","https://youtube.com"] , ["wikipedia","https://wikipedia.com"],["google","https://google.com"]]
-     for site in sites:
+    
+    if "stop".lower() in query.lower():
+        say("quitting")
+        sys.exit()
 
-        if f"Open {site[0]}".lower() in query.lower():
-                say(f"opening {site[0]}..")
-                webbrowser.open(site[1])
+    if "town" in query:
+        file_path = r'C:\Users\priya\Downloads\Lil Nas X - Old Town Road (Official Video) ft. Billy Ray Cyrus_r7qovpFAGrQ.mp3'
+        subprocess.Popen([file_path], shell=True)
+        say("opening old town road")
+
+
+    if "time" in query:
+        strftime = datetime.datetime.now().strftime("%H:%M:%S")
+        say(f"the time is {strftime}")
+ 
