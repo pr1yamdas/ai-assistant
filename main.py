@@ -40,3 +40,17 @@ while True:
         
     sites=[["youtube","https://youtube.com"] , ["wikipedia","https://wikipedia.com"],["google","https://google.com"],["mail","https://mail.google.com/mail/u/0/#inbox"]]
     apps=[["whatsapp",r"C:\Users\priya\OneDrive\Desktop\WhatsApp.lnk"],["spotify", r"C:\Users\priya\OneDrive\Desktop\Spotify.lnk"],["telegram",r"C:\Users\priya\OneDrive\Desktop\Telegram.lnk"],["gpt",r"C:\Users\priya\OneDrive\Desktop\ChatGPT.lnk"]]
+
+    for site in sites:
+
+        if  site[0].lower() in query.lower():
+            say(f"opening {site[0]}..")
+            webbrowser.open(site[1])
+            break
+
+    for app in apps:
+
+        if app[0].lower() in query.lower():
+            apppath = app[1]
+            subprocess.Popen([apppath], shell=True)
+            break
