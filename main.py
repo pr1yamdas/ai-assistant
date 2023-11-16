@@ -12,6 +12,7 @@ import requests
 from config import newsapi
 
 
+
 openai.api_key = apikey
 chatStr=""
 
@@ -69,59 +70,85 @@ def chat(query):
 
 
 def say(text):
-    speak = win32com.client.Dispatch("SAPI.SpVoice")
-    speak.Speak(text)
+    try:
+        speak = win32com.client.Dispatch("SAPI.SpVoice")
+        speak.Speak(text)
+    except Exception as e:
+        print(f"Error in saying: {e}")
 
-def takeCommand():
+def ai(prompt):
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            temperature=1,
+            max_tokens=256,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+
+        gpt_response = response["choices"][0]["text"]
+        print(gpt_response)
+        say(gpt_response)
+
+    except Exception as e:
+        print(f"Error in OpenAI API call: {e}")
+        say("Error in OpenAI API call. Please try again.")
+
+def take_command():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
         r.pause_threshold = 0.8
-        audio = r.listen(source)
         try:
+            audio = r.listen(source, timeout=5)  # Set a timeout of 5 seconds for waiting user input
             query = r.recognize_google(audio, language="en-in")
-            print(f"user said: {query}")
-            return query
-        except Exception as e:
-            print(f"Error in speech recognition: {e}")
-            say("could not hear, please repeat")
+            print(f"User said: {query}")
+            return query.lower()
+        except sr.UnknownValueError:
+            print("Speech Recognition could not understand audio")
+            return ""
+        except sr.RequestError as e:
+            print(f"Could not request results from Google Speech Recognition service; {e}")
             return "error"
 
-
-say("good morning")
+say("Good morning")
 while True:
-    print("listening..")
-    query = takeCommand()
-    
-    if "stop".lower() in query.lower():
-        say("quitting")
+    print("Listening..")
+    query = input()
+
+    if "news" in query:
+        get_news(newsapi)
+
+    if "stop" in query:
+        say("Quitting")
         sys.exit()
 
     if "town" in query:
         file_path = r'C:\Users\priya\Downloads\Lil Nas X - Old Town Road (Official Video) ft. Billy Ray Cyrus_r7qovpFAGrQ.mp3'
         subprocess.Popen([file_path], shell=True)
-        say("opening old town road")
-
+        say("Opening Old Town Road")
 
     if "time" in query:
-        strftime = datetime.datetime.now().strftime("%H:%M:%S")
-        say(f"the time is {strftime}")
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        say(f"The time is {current_time}")
 
+    if "gpt" in query:
+        ai(prompt=query)
 
-
-    sites=[["youtube","https://youtube.com"] , ["wikipedia","https://wikipedia.com"],["google","https://google.com"],["mail","https://mail.google.com/mail/u/0/#inbox"]]
-    apps=[["whatsapp",r"C:\Users\priya\OneDrive\Desktop\WhatsApp.lnk"],["spotify", r"C:\Users\priya\OneDrive\Desktop\Spotify.lnk"],["telegram",r"C:\Users\priya\OneDrive\Desktop\Telegram.lnk"],["gpt",r"C:\Users\priya\OneDrive\Desktop\ChatGPT.lnk"]]
-   
-    for site in sites:
-
-        if  site[0].lower() in query.lower():
-            say(f"opening {site[0]}..")
-            webbrowser.open(site[1])
+    sites = {"youtube": "https://youtube.com", "wikipedia": "https://wikipedia.com", "google": "https://google.com", "mail": "https://mail.google.com/mail/u/0/#inbox"}
+    for site, url in sites.items():
+        if site in query:
+            say(f"Opening {site}..")
+            webbrowser.open(url)
             break
 
-    for app in apps:
-
-        if app[0].lower() in query.lower():
-            apppath = app[1]
-            subprocess.Popen([apppath], shell=True)
+    apps = {"whatsapp": r"C:\Users\priya\OneDrive\Desktop\WhatsApp.lnk", "spotify": r"C:\Users\priya\OneDrive\Desktop\Spotify.lnk", "telegram": r"C:\Users\priya\OneDrive\Desktop\Telegram.lnk", "chat": r"C:\Users\priya\OneDrive\Desktop\ChatGPT.lnk"}
+    for app, app_path in apps.items():
+        if app in query:
+            say(f"Opening {app}..")
+            subprocess.Popen([app_path], shell=True)
             break
+    else :
+        chat(query)
