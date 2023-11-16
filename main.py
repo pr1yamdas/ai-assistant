@@ -12,6 +12,62 @@ import requests
 from config import newsapi
 
 
+openai.api_key = apikey
+chatStr=""
+
+def get_news(newsapi):
+    news_url = "https://newsapi.org/v2/top-headlines"
+    params = {
+        "apiKey": newsapi,
+        "country": "us",  # Change the country code as needed
+    }
+
+    try:
+        response = requests.get(news_url, params=params)
+        news_data = response.json()
+
+        # Extract and display news headlines
+        for article in news_data.get("articles", []):
+            title = article.get("title", "")
+            print(f"- {title}")
+
+        if not news_data.get("articles"):
+            print("No news available.")
+
+    except Exception as e:
+        print(f"Error fetching news: {e}")
+
+def chat(query):
+    global chatStr
+   # print(chatStr)
+
+    try:
+        openai.api_key = apikey
+        chatStr += f"user: {query}\n response: "
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=chatStr,
+            temperature=0.7,
+            max_tokens=256,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+
+        # Use the say function to handle the response (assuming you have it defined)
+
+        print(response["choices"][0]["text"])
+        say(response["choices"][0]["text"])
+        chatStr += f"{response['choices'][0]['text']}\n"
+        return response["choices"][0]["text"]
+
+    except Exception as e:
+        print(f"Error: {e}")
+        # Handle the error as needed
+        return "An error occurred during the conversation."
+
+
+
 def say(text):
     speak = win32com.client.Dispatch("SAPI.SpVoice")
     speak.Speak(text)
