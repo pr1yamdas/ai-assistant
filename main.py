@@ -1,9 +1,16 @@
+import random
 import speech_recognition as sr
 import win32com.client
 import webbrowser
 import sys
 import subprocess
 import datetime
+import openai
+import os
+from config import apikey  # Make sure to replace 'config' with the actual module containing your API key
+import requests
+from config import newsapi
+
 
 def say(text):
     speak = win32com.client.Dispatch("SAPI.SpVoice")
