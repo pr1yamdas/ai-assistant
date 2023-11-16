@@ -10,17 +10,37 @@ import os
 from config import apikey  # Make sure to replace 'config' with the actual module containing your API key
 import requests
 from config import newsapi
-
-
+import pywhatkit
+import re
 
 openai.api_key = apikey
 chatStr=""
+
+
+
+def play_video_on_youtube(video_title):
+    try:
+        # Use pywhatkit to search and play the video on YouTube
+        pywhatkit.playonyt(video_title)
+        say(f"Playing {video_title} on YouTube ")
+
+    except Exception as e:
+        print(f"Error playing video: {e}")
+
+def extract_video_title(query):
+    # Use a simple regex to extract text after "play"
+    match = re.search(r'\bplay\b (.+)', query)
+    if match:
+        return match.group(1)
+    else:
+        return None
+
 
 def get_news(newsapi):
     news_url = "https://newsapi.org/v2/top-headlines"
     params = {
         "apiKey": newsapi,
-        "country": "us",  # Change the country code as needed
+        "country": "in",  # Change the country code as needed
     }
 
     try:
@@ -37,6 +57,7 @@ def get_news(newsapi):
 
     except Exception as e:
         print(f"Error fetching news: {e}")
+
 
 def chat(query):
     global chatStr
@@ -118,24 +139,6 @@ while True:
     print("Listening..")
     query = input()
 
-    if "news" in query:
-        get_news(newsapi)
-
-    if "stop" in query:
-        say("Quitting")
-        sys.exit()
-
-    if "town" in query:
-        file_path = r'C:\Users\priya\Downloads\Lil Nas X - Old Town Road (Official Video) ft. Billy Ray Cyrus_r7qovpFAGrQ.mp3'
-        subprocess.Popen([file_path], shell=True)
-        say("Opening Old Town Road")
-
-    if "time" in query:
-        current_time = datetime.datetime.now().strftime("%H:%M:%S")
-        say(f"The time is {current_time}")
-
-    if "gpt" in query:
-        ai(prompt=query)
 
     sites = {"youtube": "https://youtube.com", "wikipedia": "https://wikipedia.com", "google": "https://google.com", "mail": "https://mail.google.com/mail/u/0/#inbox"}
     for site, url in sites.items():
@@ -150,5 +153,43 @@ while True:
             say(f"Opening {app}..")
             subprocess.Popen([app_path], shell=True)
             break
-    else :
+    if "news" in query:
+        #news_headlines = get_news(newsapi)
+        get_news(newsapi)
+        #say(news_headlines)
+        '''if news_headlines:
+            for headline in news_headlines:
+                say(headline)
+
+        else:
+            say("No news available.")'''
+
+    elif "stop" in query:
+            say("Quitting")
+            sys.exit()
+    elif "town" in query:
+            file_path = r'C:\Users\priya\Downloads\Lil Nas X - Old Town Road (Official Video) ft. Billy Ray Cyrus_r7qovpFAGrQ.mp3'
+            subprocess.Popen([file_path], shell=True)
+            say("Opening Old Town Road")
+    elif "time" in query:
+            current_time = datetime.datetime.now().strftime("%H:%M:%S")
+            say(f"The time is {current_time}")
+    elif "gpt" in query:
+            ai(prompt=query)
+    elif any(site in query for site in sites):
+            matching_sites = [site for site in sites if site in query]
+            say(f"Opening {matching_sites[0]}..")
+            webbrowser.open(sites[matching_sites[0]])
+    elif any(app in query for app in apps):
+            matching_apps = [app for app in apps if app in query]
+            say(f"Opening {matching_apps[0]}..")
+            subprocess.Popen([apps[matching_apps[0]]], shell=True)
+    elif "play" in query:
+            video_title = extract_video_title(query)
+            if video_title:
+                    play_video_on_youtube(video_title)
+            else:
+                    say("Please specify a video title after 'play'")
+
+    else:
         chat(query)
