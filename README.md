@@ -1,23 +1,29 @@
-# Voice-Activated AI Assistant with Python
+# Voice-Controlled AI Assistant
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Overview
 
-This project implements a simple voice-activated assistant using Python. The assistant, named Jarvis, leverages the `speech_recognition` library for speech-to-text and the `win32com` library for text-to-speech. It can recognize spoken commands, respond to queries, and perform actions such as opening websites.
+Welcome to the Voice-Controlled AI Assistant project! This project implements a voice-activated artificial intelligence assistant capable of understanding user commands, providing responses, and adapting over time based on user interactions.
 
 ## Features
 
-- **Speech Recognition:** Utilizes the `speech_recognition` library to capture and transcribe speech from the user.
-- **Text-to-Speech:** Uses the `win32com` library to convert text responses to spoken words.
-- **Website Interaction:** Opens specified websites based on user commands.
-- **User Interaction:** Prompts the user for input and responds accordingly.
-
-## Dependencies
-
-- [speech_recognition](https://pypi.org/project/SpeechRecognition/): A library for performing speech recognition in Python.
-- [pywin32](https://pypi.org/project/pywin32/): Provides Python extensions for Windows, including access to Windows Speech API (SAPI).
+- **Speech Recognition:** The system recognizes spoken commands using the SpeechRecognition library.
+- **Natural Language Processing:** Leverages OpenAI's GPT-3 model for natural language understanding and generation.
+- **Voice Synthesis:** Utilizes the pyttsx3 library for text-to-speech synthesis.
+- **Adaptation:** The AI adapts and learns from user interactions, enhancing its responses over time.
 
 ## Getting Started
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/pr1y4m/ai-assistant.git
+### Prerequisites
+
+- Python 3.x
+- Required Python libraries (specified in requirements.txt)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/voice-controlled-ai.git
+cd voice-controlled-ai
