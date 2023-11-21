@@ -35,11 +35,11 @@ cd ai-assistant
 
 ## Libraries Used
 
-- **SpeechRecognition: Used for converting speech to text.
-- **pyttsx3: Utilized for text-to-speech synthesis.
-- **OpenAI GPT-3: Integrated for natural language processing.
-- **requests: Used for making HTTP requests (e.g., fetching news headlines).
-- **pywhatkit: Used for interacting with YouTube (e.g., playing videos).
+- **SpeechRecognition:** Used for converting speech to text.
+- **pyttsx3:** Utilized for text-to-speech synthesis.
+- **OpenAI GPT-3:** Integrated for natural language processing.
+- **requests:** Used for making HTTP requests (e.g., fetching news headlines).
+- **pywhatkit:** Used for interacting with YouTube (e.g., playing videos).
 
 # Conclusion
 
