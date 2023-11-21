@@ -1,6 +1,6 @@
 # Voice-Controlled AI Assistant
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 
 ## Overview
 
@@ -25,5 +25,10 @@ Welcome to the Voice-Controlled AI Assistant project! This project implements a 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/voice-controlled-ai.git
-cd voice-controlled-ai
+git clone https://github.com/pr1yamdas/ai-assistant.git
+cd ai-assistant
+
+## Usage
+
+- **Launch the application and start speaking commands.
+- **The AI assistant will respond accordingly, utilizing various functionalities.
