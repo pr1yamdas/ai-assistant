@@ -239,7 +239,5 @@ while True:
     elif "change voice" in query:
         change_voice()
         say("Voice changed.")
-    elif "naughty" in query and "open" in query:
-        webbrowser.open("https://www.pornhub.com/login")
     else:
         chat(query)
